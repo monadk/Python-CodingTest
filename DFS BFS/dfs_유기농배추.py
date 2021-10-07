@@ -1,3 +1,5 @@
+# boj 1012 유기농배추
+
 import sys
 sys.setrecursionlimit(10000)
 
