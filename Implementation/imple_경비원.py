@@ -1,35 +1,21 @@
-# 오답... ^^
-
 m, n = map(int, input().split())
 k = int(input())
-stores = []
-for _ in range(k):
-    stores.append(tuple(map(int, input().split())))
-loc = tuple(map(int, input().split()))
+inputs = []
+for _ in range(k+1):
+    dir, dist = map(int, input().split())
+    if dir == 1:
+        inputs.append(dist)
+    if dir == 2:
+        inputs.append(m+n+m-dist)
+    if dir == 3:
+        inputs.append(m+m+n+n-dist)
+    if dir == 4:
+        inputs.append(m+dist)
+loc = inputs[-1]
 
+total_length = (n+m)*2
 total = 0
-for store in stores:
-    if abs(store[0]-loc[0]) == 2:  # 마주보는 방향
-        if store[0] // 2 == 0:  # 동/서쪽이면
-            total += min(loc[1]+store[1]+m, n*2-loc[1]-store[1]+m)
-        else:  # 남/북쪽
-            total += min(loc[1]+store[1]+n, m*2-loc[1]-store[1]+n)
-    elif store[0] == loc[0]:  # 같은 방향
-        total += abs(loc[1]-store[1])
-    else:  # 90도 방향
-        if {store[0], loc[0]} == {1, 4}:
-            if store[0] == 1:
-                total += m-store[1]+loc[1]
-            else:
-                total += m-loc[1]+store[1]
-        elif {store[0], loc[0]} == {1, 2}:
-            total += store[1]+loc[1]
-        elif {store[0], loc[0]} == {3, 4}:
-            total += m+n-store[1]-loc[1]
-        elif {store[0], loc[0]} == {2, 3}:
-            if store[0] == 2:
-                total += n-store[1]+loc[1]
-            else:
-                total += n-loc[1]+store[1]
+for store in inputs:
+    total += min(abs(store-loc), total_length-abs(store-loc))
 
 print(total)

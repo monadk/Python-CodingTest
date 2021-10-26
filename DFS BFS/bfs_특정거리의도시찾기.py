@@ -1,18 +1,28 @@
 from collections import deque
 
 n, m, k, x = map(int, input().split())
-roads = []
+
+graph = [[] for _ in range(n+1)]
 for _ in range(m):
-    roads.append(tuple(map(int, input().split())))
+    a, b = map(int, input().split())
+    graph[a].append(b)
 
-cities = [0]*(n+1)
+distance = [-1]*(n+1)
+distance[x] = 0
 
+q = deque([x])
+while q:  # q가 남아있는 동안 지속
+    now = q.popleft()
+    for next in graph[now]:
+        if distance[next] == -1:  # 방문 안한 노드
+            q.append(next)
+            distance[next] = distance[now]+1
 
-def bfs(start):
-    # blabla
-    q = deque(start)
+exist = False
+for i in range(1, n+1):
+    if distance[i] == k:
+        print(i)
+        exist = True
 
-
-bfs(x)
-
-print(i for i in range(1, n+1) if cities(i) == k)
+if exist == False:
+    print(-1)
